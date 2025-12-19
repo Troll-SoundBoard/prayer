@@ -2,10 +2,11 @@
 body{
 margin:0;
 font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-background:linear-gradient(180deg,#0f2027,#203a43,#2c5364);
+min-height:100vh;
+background:radial-gradient(circle at top,#1b2a4e,#020411);
 color:white;
 }
-.screen{display:none;padding-bottom:80px}
+.screen{display:none;padding-bottom:90px}
 .screen.active{display:block}
 header{
 display:flex;
@@ -13,37 +14,42 @@ justify-content:space-between;
 align-items:center;
 padding:20px;
 }
-h1,h2,h3{margin:0 0 6px}
-#location{opacity:.7;font-size:14px}
+#moon{
+width:60px;height:60px;
+border-radius:50%;
+background:radial-gradient(circle at 30% 30%,#fff,#cfd9df);
+box-shadow:0 0 25px rgba(255,255,255,.6);
+}
 .card{
 background:rgba(255,255,255,.08);
-margin:16px;
+margin:20px;
 padding:16px;
-border-radius:20px;
+border-radius:22px;
 }
-.prayer{
+.pray{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin:12px 0;
+margin:14px 0;
 }
-.prayer button{
-width:28px;height:28px;
+.check{
+width:26px;height:26px;
 border-radius:50%;
 border:2px solid #4cc9f0;
-background:transparent;
+transition:.25s;
 }
-.prayer.checked button{
+.check.checked{
 background:#2ecc71;
 border-color:#2ecc71;
+box-shadow:0 0 10px rgba(46,204,113,.8);
 }
 nav{
 position:fixed;
 bottom:0;left:0;right:0;
 display:flex;
 justify-content:space-around;
-padding:12px 0;
 background:#020411;
+padding:14px 0;
 }
 nav button{
 background:none;
@@ -52,8 +58,11 @@ color:white;
 opacity:.6;
 }
 nav button.active{opacity:1}
-input,button{border:none;border-radius:14px;padding:14px}
-#signup{text-align:center;padding:40px}
-#signup button{background:#4cc9f0;font-weight:bold}
-.hidden{display:none}
-.danger{background:#ff4d4d}
+input,button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:16px;
+margin:10px 0;
+}
+button{background:#4cc9f0;font-weight:600}

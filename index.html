@@ -10,40 +10,31 @@
 
 <div id="signup" class="screen active">
   <h1>Welcome</h1>
-  <input id="username" placeholder="Username *" required>
-  <button id="enterBtn">Enter</button>
+  <input id="username" placeholder="Username *">
+  <button onclick="enter()">Enter</button>
 </div>
 
 <div id="app" class="screen">
   <header>
     <div>
-      <h2 id="greeting"></h2>
-      <p id="location">Locating...</p>
+      <h2 id="greet"></h2>
+      <p id="loc">Locating…</p>
     </div>
-    <div id="streak" class="hidden"></div>
+    <div id="moon"></div>
   </header>
 
-  <main id="home" class="page active">
-    <div class="card">
-      <h3>Today's Prayers</h3>
-      <div class="prayer" data-name="Fajr"><span>Fajr</span><button></button></div>
-      <div class="prayer" data-name="Dhuhr"><span>Dhuhr</span><button></button></div>
-      <div class="prayer" data-name="Asr"><span>Asr</span><button></button></div>
-      <div class="prayer" data-name="Maghrib"><span>Maghrib</span><button></button></div>
-      <div class="prayer" data-name="Isha"><span>Isha</span><button></button></div>
-    </div>
-  </main>
-
-  <main id="settings" class="page">
-    <div class="card">
-      <h3>Settings</h3>
-      <button id="signOutBtn" class="danger">Sign out</button>
-    </div>
-  </main>
+  <div class="card">
+    <h3>Today's Prayers</h3>
+    <div class="pray"><span>Fajr</span><div class="check"></div></div>
+    <div class="pray"><span>Dhuhr</span><div class="check"></div></div>
+    <div class="pray"><span>Asr</span><div class="check"></div></div>
+    <div class="pray"><span>Maghrib</span><div class="check"></div></div>
+    <div class="pray"><span>Isha</span><div class="check"></div></div>
+  </div>
 
   <nav>
-    <button data-page="home" class="active">Home</button>
-    <button data-page="settings">Settings</button>
+    <button class="active">Home</button>
+    <button>Settings</button>
   </nav>
 </div>
 
