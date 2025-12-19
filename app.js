@@ -1,63 +1,100 @@
+const signup=document.getElementById('signup');
+const app=document.getElementById('app');
+const modal=document.getElementById('modal');
+const hi=document.getElementById('hi');
+const streakBox=document.getElementById('streak');
 
-const prayers=["Fajr","Dhuhr","Asr","Maghrib","Isha"];
-
-function show(id){
-document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
+if(localStorage.user){
+  startApp();
 }
 
 function completeSignup(){
-const u=username.value.trim();
-if(!u){username.placeholder="Required";return;}
-localStorage.setItem("user",u);
-show("home");
-init();
+  const u=username.value.trim();
+  if(!u){alert('Username required');return}
+  localStorage.user=u;
+  localStorage.bio=bio.value;
+  startApp();
 }
 
-function init(){
-const u=localStorage.getItem("user");
-if(!u){show("signup");return;}
-hi.innerText="Hi "+u;
-nameEdit.value=u;
-renderPrayers();
+function startApp(){
+  signup.classList.remove('active');
+  app.classList.add('active');
+  hi.textContent='Hi '+localStorage.user;
+  getLocation();
+  initPrayers();
+  renderCalendar();
 }
 
-function renderPrayers(){
-prayersDiv=prayersEl=document.getElementById("prayers");
-prayersDiv.innerHTML="";
-prayers.forEach(p=>{
-const done=localStorage.getItem(p)==="1";
-const d=document.createElement("div");
-d.className="prayer"+(done?" checked":"");
-d.innerHTML=`<span>${p}</span><input type='checkbox' ${done?"checked":""}>`;
-d.querySelector("input").onchange=e=>{
-localStorage.setItem(p,e.target.checked?"1":"0");
-renderPrayers();
-};
-prayersDiv.appendChild(d);
-});
-updateStreak();
+function show(tab){
+  document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+  if(tab==='calendar')calendar.classList.remove('hidden');
+  if(tab==='settings')settings.classList.remove('hidden');
 }
 
-function updateStreak(){
-let count=0;
-prayers.forEach(p=>{if(localStorage.getItem(p)==="1")count++;});
-if(count===5){
-let days=parseInt(localStorage.streak||0)+1;
-localStorage.streak=days;
-}
-if(localStorage.streak>=2){
-streak.innerText=localStorage.streak+" days in a row 🔥";
-}
-}
-
-function openModal(){modal.classList.remove("hidden");}
-function closeModal(){modal.classList.add("hidden");}
+function openModal(){modal.classList.remove('hidden')}
+function closeModal(){modal.classList.add('hidden')}
 
 function signOut(){
-localStorage.clear();
-closeModal();
-show("signup");
+  localStorage.clear();
+  closeModal();
+  location.reload();
 }
 
-window.onload=init;
+function getLocation(){
+  navigator.geolocation.getCurrentPosition(p=>{
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${p.coords.latitude}&lon=${p.coords.longitude}`)
+    .then(r=>r.json()).then(d=>{
+      location.textContent=d.address.city+', '+d.address.country;
+    });
+  });
+}
+
+function todayKey(){
+  return new Date().toISOString().split('T')[0];
+}
+
+function initPrayers(){
+  document.querySelectorAll('.pray input').forEach(i=>{
+    const k=todayKey()+i.dataset.p;
+    i.checked=localStorage[k]==='1';
+    toggle(i);
+    i.onchange=()=>{
+      localStorage[k]=i.checked?'1':'0';
+      toggle(i);
+      calcStreak();
+    }
+  });
+  calcStreak();
+}
+
+function toggle(i){
+  i.parentElement.classList.toggle('checked',i.checked);
+}
+
+function calcStreak(){
+  let days=0;
+  for(let i=0;i<30;i++){
+    const d=new Date();
+    d.setDate(d.getDate()-i);
+    const key=d.toISOString().split('T')[0];
+    let ok=true;
+    ['Fajr','Dhuhr','Asr','Maghrib','Isha'].forEach(p=>{
+      if(localStorage[key+p]!=='1')ok=false;
+    });
+    if(ok)days++; else break;
+  }
+  streakBox.textContent=days>=2?`${days} days in a row 🔥`:'';
+}
+
+function renderCalendar(){
+  const g=document.getElementById('grid');
+  g.innerHTML='';
+  for(let i=1;i<=30;i++){
+    const d=document.createElement('div');
+    d.textContent=i;
+    d.style.display='inline-block';
+    d.style.width='40px';
+    d.style.margin='4px';
+    g.appendChild(d);
+  }
+}

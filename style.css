@@ -1,45 +1,63 @@
-
 body{
 margin:0;
-font-family:system-ui;
-background:radial-gradient(circle at top,#0b1d3a,#000);
+font-family:sans-serif;
+background:linear-gradient(#0a1a3a,#020411);
 color:white;
 }
-.screen{display:none;padding:20px 20px 90px;}
-.screen.active{display:block;}
-input,button{
+.screen{display:none;padding:20px}
+.screen.active{display:block}
+input,textarea,button{
 width:100%;
-padding:14px;
+padding:12px;
 margin:10px 0;
 border-radius:14px;
 border:none;
 }
-button{background:#39bdf8;color:#000;font-weight:600}
+button{background:#4cc9f0;font-weight:bold}
 .card{
-background:rgba(255,255,255,0.08);
-border-radius:20px;
+background:rgba(255,255,255,.08);
 padding:16px;
+border-radius:20px;
+margin-top:20px
 }
-.prayer{
-display:flex;justify-content:space-between;padding:10px 0;
+.pray{
+display:flex;
+justify-content:space-between;
+padding:8px 0;
+border-bottom:1px solid rgba(255,255,255,.1)
 }
-.checked{color:#4cff88}
+.pray.checked{color:#4ade80}
 nav{
-position:fixed;bottom:0;width:100%;
-display:flex;justify-content:space-around;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+display:flex;
+justify-content:space-around;
+background:#020411
 }
 nav button{background:none;color:white}
-#modal{
-position:fixed;inset:0;
-background:rgba(0,0,0,0.6);
-display:flex;align-items:center;justify-content:center;
-}
 .hidden{display:none}
-.modalBox{
-background:#08152d;
+#modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:flex;
+align-items:center;
+justify-content:center
+}
+#modal.hidden{display:none}
+.modal{
+background:#0b1228;
 padding:20px;
-border-radius:18px;
-width:80%;
+border-radius:20px;
+width:80%
+}
+#sky{
+width:180px;
+height:180px;
+border-radius:50%;
+margin:20px auto;
+background:radial-gradient(circle,#fff,#aaa);
+box-shadow:0 0 40px rgba(255,255,255,.6)
 }
