@@ -4,22 +4,25 @@ const greeting=document.getElementById('greeting');
 const timeEl=document.getElementById('time');
 const locationEl=document.getElementById('location');
 const countEl=document.getElementById('count');
+const modal=document.getElementById('modal');
+
+const METHODS={
+  MWL:{Fajr:'05:10',Dhuhr:'12:05',Asr:'15:30',Maghrib:'18:00',Isha:'19:20'},
+  UQ:{Fajr:'05:00',Dhuhr:'12:10',Asr:'15:35',Maghrib:'18:05',Isha:'19:35'}
+};
 
 function init(){
-  const u=localStorage.user;
-  if(u){
+  if(localStorage.user){
     signupScreen.classList.remove('active');
     app.classList.add('active');
-    greeting.textContent='Hi '+u;
+    greeting.textContent='Hi '+localStorage.user;
     startClock();
     locate();
     buildCalendar();
     restoreChecks();
-    updateCount();
+    calcTimes();
     setPage('home');
-  }else{
-    signupScreen.classList.add('active');
-  }
+  }else signupScreen.classList.add('active');
 }
 
 function signup(){
@@ -31,82 +34,69 @@ function signup(){
 
 function startClock(){
   setInterval(()=>{
-    const d=new Date();
-    timeEl.textContent=d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+    timeEl.textContent=new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
   },1000);
 }
 
 function locate(){
-  if(!navigator.geolocation){
-    locationEl.textContent='Location unavailable';
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(pos=>{
-    locationEl.textContent='Your location detected';
-  },()=>{
-    locationEl.textContent='Location denied';
-  });
+  navigator.geolocation?.getCurrentPosition(()=>{
+    locationEl.textContent='Location detected';
+  },()=>locationEl.textContent='Location denied');
 }
 
 document.querySelectorAll('.pray').forEach(p=>{
   p.onclick=()=>{
-    const c=p.querySelector('.check');
-    c.classList.toggle('checked');
-    saveChecks();
-    updateCount();
+    p.querySelector('.check').classList.toggle('checked');
+    saveChecks();updateCount();
   };
 });
 
 function saveChecks(){
-  const today=new Date().toDateString();
-  const data={};
+  const t=new Date().toDateString(),d={};
   document.querySelectorAll('.pray').forEach(p=>{
-    data[p.dataset.p]=p.querySelector('.check').classList.contains('checked');
+    d[p.dataset.p]=p.querySelector('.check').classList.contains('checked');
   });
-  localStorage['prayers_'+today]=JSON.stringify(data);
+  localStorage['p_'+t]=JSON.stringify(d);
 }
 
 function restoreChecks(){
-  const today=new Date().toDateString();
-  const data=JSON.parse(localStorage['prayers_'+today]||'{}');
+  const d=JSON.parse(localStorage['p_'+new Date().toDateString()]||'{}');
   document.querySelectorAll('.pray').forEach(p=>{
-    if(data[p.dataset.p]){
-      p.querySelector('.check').classList.add('checked');
-    }
+    if(d[p.dataset.p])p.querySelector('.check').classList.add('checked');
   });
+  updateCount();
 }
 
 function updateCount(){
-  const total=document.querySelectorAll('.check.checked').length;
-  countEl.textContent=total+' / 5 prayers completed today';
+  countEl.textContent=document.querySelectorAll('.check.checked').length+' / 5 prayers';
 }
 
-document.querySelectorAll('nav button').forEach(btn=>{
-  btn.onclick=()=>setPage(btn.dataset.page);
+function calcTimes(){
+  const m=document.getElementById('method').value;
+  document.querySelectorAll('.pray').forEach(p=>{
+    p.querySelector('.pt').textContent=METHODS[m][p.dataset.p];
+  });
+}
+
+document.querySelectorAll('nav button').forEach(b=>{
+  b.onclick=()=>setPage(b.dataset.page);
 });
 
 function setPage(p){
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.page').forEach(pg=>pg.style.display='none');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById(p).style.display='block';
-  document.querySelector(`nav button[data-page="${p}"]`).classList.add('active');
+  document.querySelector('nav button[data-page="'+p+'"]').classList.add('active');
 }
 
 function buildCalendar(){
-  const grid=document.getElementById('calendarGrid');
-  grid.innerHTML='';
-  const now=new Date();
-  const days=new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
-  for(let i=1;i<=days;i++){
-    const d=document.createElement('div');
-    d.textContent=i;
-    grid.appendChild(d);
-  }
+  const g=document.getElementById('calendarGrid');g.innerHTML='';
+  const d=new Date(),n=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
+  for(let i=1;i<=n;i++){const c=document.createElement('div');c.textContent=i;g.appendChild(c);}
 }
 
-function signOut(){
-  localStorage.clear();
-  location.reload();
-}
+function openModal(){modal.classList.remove('hidden')}
+function closeModal(){modal.classList.add('hidden')}
+function signOut(){localStorage.clear();location.reload()}
 
 init();
