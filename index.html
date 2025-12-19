@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>Prayer Tracker</title>
+<link rel='stylesheet' href='style.css'>
+</head>
+<body>
+
+<div id="signup" class="screen active">
+  <h1>Welcome</h1>
+  <input id="username" placeholder="Username *">
+  <input id="bio" placeholder="Bio (optional)">
+  <button onclick="completeSignup()">Continue</button>
+</div>
+
+<div id="home" class="screen">
+  <h1 id="hi"></h1>
+  <div id="streak"></div>
+  <div class="card">
+    <h2>Today's Prayers</h2>
+    <div id="prayers"></div>
+  </div>
+</div>
+
+<div id="calendar" class="screen">
+  <h1>Calendar</h1>
+  <div id="calendarGrid"></div>
+</div>
+
+<div id="settings" class="screen">
+  <h1>Profile</h1>
+  <input id="nameEdit">
+  <button onclick="openModal()">Sign out</button>
+</div>
+
+<div id="modal" class="hidden">
+  <div class="modalBox">
+    <h2>Sign out?</h2>
+    <p>This will erase all data.</p>
+    <button onclick="signOut()">Yes</button>
+    <button onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<nav>
+  <button onclick="show('home')">Home</button>
+  <button onclick="show('calendar')">Calendar</button>
+  <button onclick="show('settings')">Settings</button>
+</nav>
+
+<script src="app.js"></script>
+</body>
+</html>
