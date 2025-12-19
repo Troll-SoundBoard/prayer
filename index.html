@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div id="signup" class="screen active">
+<div id="signup" class="screen">
   <h1>Welcome</h1>
   <input id="usernameInput" placeholder="Username *">
   <button onclick="signup()">Continue</button>
@@ -20,39 +20,38 @@
       <h2 id="greeting"></h2>
       <p id="time"></p>
       <p id="location">Locating…</p>
+      <p id="count"></p>
     </div>
     <div id="moon"></div>
   </header>
 
-  <main id="home" class="page active">
+  <main id="home" class="page">
     <div class="card">
       <h3>Today's Prayers</h3>
-      <div class="pray"><span>Fajr</span><div class="check"></div></div>
-      <div class="pray"><span>Dhuhr</span><div class="check"></div></div>
-      <div class="pray"><span>Asr</span><div class="check"></div></div>
-      <div class="pray"><span>Maghrib</span><div class="check"></div></div>
-      <div class="pray"><span>Isha</span><div class="check"></div></div>
+      <div class="pray" data-p="Fajr"><span>Fajr</span><div class="check"></div></div>
+      <div class="pray" data-p="Dhuhr"><span>Dhuhr</span><div class="check"></div></div>
+      <div class="pray" data-p="Asr"><span>Asr</span><div class="check"></div></div>
+      <div class="pray" data-p="Maghrib"><span>Maghrib</span><div class="check"></div></div>
+      <div class="pray" data-p="Isha"><span>Isha</span><div class="check"></div></div>
     </div>
   </main>
 
   <main id="calendar" class="page">
     <div class="card">
-      <h3>Prayer Calendar</h3>
+      <h3>Calendar</h3>
       <div id="calendarGrid"></div>
     </div>
   </main>
 
   <main id="settings" class="page">
     <div class="card">
-      <h3>Profile</h3>
-      <input id="bioInput" placeholder="Bio">
-      <input type="file" id="picInput" accept="image/*">
+      <h3>Settings</h3>
       <button onclick="signOut()" class="danger">Sign out</button>
     </div>
   </main>
 
   <nav>
-    <button data-page="home" class="active">Home</button>
+    <button data-page="home">Home</button>
     <button data-page="calendar">Calendar</button>
     <button data-page="settings">Settings</button>
   </nav>
