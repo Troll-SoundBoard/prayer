@@ -10,31 +10,51 @@
 
 <div id="signup" class="screen active">
   <h1>Welcome</h1>
-  <input id="username" placeholder="Username *">
-  <button onclick="enter()">Enter</button>
+  <input id="usernameInput" placeholder="Username *">
+  <button onclick="signup()">Continue</button>
 </div>
 
 <div id="app" class="screen">
   <header>
     <div>
-      <h2 id="greet"></h2>
-      <p id="loc">Locating…</p>
+      <h2 id="greeting"></h2>
+      <p id="time"></p>
+      <p id="location">Locating…</p>
     </div>
     <div id="moon"></div>
   </header>
 
-  <div class="card">
-    <h3>Today's Prayers</h3>
-    <div class="pray"><span>Fajr</span><div class="check"></div></div>
-    <div class="pray"><span>Dhuhr</span><div class="check"></div></div>
-    <div class="pray"><span>Asr</span><div class="check"></div></div>
-    <div class="pray"><span>Maghrib</span><div class="check"></div></div>
-    <div class="pray"><span>Isha</span><div class="check"></div></div>
-  </div>
+  <main id="home" class="page active">
+    <div class="card">
+      <h3>Today's Prayers</h3>
+      <div class="pray"><span>Fajr</span><div class="check"></div></div>
+      <div class="pray"><span>Dhuhr</span><div class="check"></div></div>
+      <div class="pray"><span>Asr</span><div class="check"></div></div>
+      <div class="pray"><span>Maghrib</span><div class="check"></div></div>
+      <div class="pray"><span>Isha</span><div class="check"></div></div>
+    </div>
+  </main>
+
+  <main id="calendar" class="page">
+    <div class="card">
+      <h3>Prayer Calendar</h3>
+      <div id="calendarGrid"></div>
+    </div>
+  </main>
+
+  <main id="settings" class="page">
+    <div class="card">
+      <h3>Profile</h3>
+      <input id="bioInput" placeholder="Bio">
+      <input type="file" id="picInput" accept="image/*">
+      <button onclick="signOut()" class="danger">Sign out</button>
+    </div>
+  </main>
 
   <nav>
-    <button class="active">Home</button>
-    <button>Settings</button>
+    <button data-page="home" class="active">Home</button>
+    <button data-page="calendar">Calendar</button>
+    <button data-page="settings">Settings</button>
   </nav>
 </div>
 

@@ -1,29 +1,66 @@
-const signup=document.getElementById('signup');
+const signupScreen=document.getElementById('signup');
 const app=document.getElementById('app');
-const greet=document.getElementById('greet');
-const loc=document.getElementById('loc');
+const greeting=document.getElementById('greeting');
+const timeEl=document.getElementById('time');
+const locationEl=document.getElementById('location');
 
-function enter(){
-  const u=document.getElementById('username').value.trim();
+function signup(){
+  const u=document.getElementById('usernameInput').value.trim();
   if(!u) return;
-  signup.classList.remove('active');
+  localStorage.user=u;
+  signupScreen.classList.remove('active');
   app.classList.add('active');
-  greet.textContent='Hi '+u;
+  greeting.textContent='Hi '+u;
+  startClock();
   locate();
+  buildCalendar();
+}
+
+function startClock(){
+  setInterval(()=>{
+    const d=new Date();
+    timeEl.textContent=d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+  },1000);
 }
 
 function locate(){
   if(!navigator.geolocation){
-    loc.textContent='Location unavailable';
+    locationEl.textContent='Location unavailable';
     return;
   }
   navigator.geolocation.getCurrentPosition(()=>{
-    loc.textContent='Based on your location';
+    locationEl.textContent='Based on your location';
   },()=>{
-    loc.textContent='Location denied';
+    locationEl.textContent='Location denied';
   });
 }
 
 document.querySelectorAll('.check').forEach(c=>{
   c.onclick=()=>c.classList.toggle('checked');
 });
+
+document.querySelectorAll('nav button').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(btn.dataset.page).classList.add('active');
+  };
+});
+
+function buildCalendar(){
+  const grid=document.getElementById('calendarGrid');
+  const now=new Date();
+  const days=new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+  for(let i=1;i<=days;i++){
+    const d=document.createElement('div');
+    d.textContent=i;
+    grid.appendChild(d);
+  }
+}
+
+function signOut(){
+  localStorage.clear();
+  app.classList.remove('active');
+  signupScreen.classList.add('active');
+}
