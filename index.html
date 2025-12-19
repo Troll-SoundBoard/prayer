@@ -10,56 +10,41 @@
 
 <div id="signup" class="screen active">
   <h1>Welcome</h1>
-  <input id="username" placeholder="Username *">
-  <textarea id="bio" placeholder="Bio (optional)"></textarea>
-  <input type="file" id="pfp">
-  <button onclick="completeSignup()">Enter</button>
+  <input id="username" placeholder="Username *" required>
+  <button id="enterBtn">Enter</button>
 </div>
 
 <div id="app" class="screen">
   <header>
-    <h1 id="hi"></h1>
-    <div id="location"></div>
-    <div id="streak"></div>
+    <div>
+      <h2 id="greeting"></h2>
+      <p id="location">Locating...</p>
+    </div>
+    <div id="streak" class="hidden"></div>
   </header>
 
-  <div id="sky"></div>
+  <main id="home" class="page active">
+    <div class="card">
+      <h3>Today's Prayers</h3>
+      <div class="prayer" data-name="Fajr"><span>Fajr</span><button></button></div>
+      <div class="prayer" data-name="Dhuhr"><span>Dhuhr</span><button></button></div>
+      <div class="prayer" data-name="Asr"><span>Asr</span><button></button></div>
+      <div class="prayer" data-name="Maghrib"><span>Maghrib</span><button></button></div>
+      <div class="prayer" data-name="Isha"><span>Isha</span><button></button></div>
+    </div>
+  </main>
 
-  <div class="card">
-    <h2>Today's Prayers</h2>
-    <div class="pray"><label>Fajr</label><input type="checkbox" data-p="Fajr"></div>
-    <div class="pray"><label>Dhuhr</label><input type="checkbox" data-p="Dhuhr"></div>
-    <div class="pray"><label>Asr</label><input type="checkbox" data-p="Asr"></div>
-    <div class="pray"><label>Maghrib</label><input type="checkbox" data-p="Maghrib"></div>
-    <div class="pray"><label>Isha</label><input type="checkbox" data-p="Isha"></div>
-  </div>
-
-  <div id="calendar" class="card hidden">
-    <h2>Calendar</h2>
-    <div id="grid"></div>
-  </div>
-
-  <div id="settings" class="card hidden">
-    <h2>Settings</h2>
-    <input id="nameEdit">
-    <textarea id="bioEdit"></textarea>
-    <button onclick="openModal()">Sign out</button>
-  </div>
+  <main id="settings" class="page">
+    <div class="card">
+      <h3>Settings</h3>
+      <button id="signOutBtn" class="danger">Sign out</button>
+    </div>
+  </main>
 
   <nav>
-    <button onclick="show('home')">Home</button>
-    <button onclick="show('calendar')">Calendar</button>
-    <button onclick="show('settings')">Settings</button>
+    <button data-page="home" class="active">Home</button>
+    <button data-page="settings">Settings</button>
   </nav>
-</div>
-
-<div id="modal" class="hidden">
-  <div class="modal">
-    <h3>Sign out?</h3>
-    <p>This will erase all data.</p>
-    <button onclick="signOut()">Yes</button>
-    <button onclick="closeModal()">Cancel</button>
-  </div>
 </div>
 
 <script src="app.js"></script>
